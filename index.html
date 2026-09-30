@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CodiGames by Codifica Edu — catálogo de jogos educacionais com filtros automáticos por códigos da BNCC.">
+  <meta name="theme-color" content="#150057">
+  <title>CodiGames by Codifica Edu</title>
+
+  <style>
+    /* =========================================================
+       01. TOKENS
+    ========================================================= */
+    :root {
+      --purple-950: #150057;
+      --purple-800: #352C57;
+      --indigo-600: #444D9C;
+      --mauve-500: #9E599F;
+      --magenta-500: #E42D5D;
+      --blush-050: #FDF3F8;
+      --ink: #101111;
+      --white: #FFFFFF;
+
+      --purple-card: #25145c;
+      --purple-card-2: #31156f;
+      --line: rgba(255, 255, 255, 0.13);
+      --muted: rgba(255, 255, 255, 0.72);
+      --muted-2: rgba(255, 255, 255, 0.52);
+
+      --radius-xl: 26px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --max: 1160px;
+
+      --shadow: 0 26px 70px rgba(6, 0, 37, 0.30);
+      --shadow-card: 0 14px 36px rgba(8, 0, 42, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 82% 2%, rgba(158, 89, 159, 0.22), transparent 26rem),
+        radial-gradient(circle at 12% 38%, rgba(228, 45, 93, 0.12), transparent 30rem),
+        linear-gradient(135deg, #2c0d58 0%, #170060 42%, #12004f 100%);
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.35), transparent 70%);
+    }
+
+    button,
+    select,
+    input {
+      font: inherit;
+    }
+
+    button,
+    a,
+    select {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--magenta-500);
+      outline-offset: 3px;
+    }
+
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0,0,0,0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .wrap {
+      width: min(calc(100% - 32px), var(--max));
+      margin-inline: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* =========================================================
+       02. HEADER
+    ========================================================= */
+    .site-header {
+      padding: 22px 0 8px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: clamp(135px, 16vw, 200px);
+      height: auto;
+      filter: brightness(0) invert(1);
+    }
+
+    .brand-divider {
+      width: 1px;
+      height: 34px;
+      background: rgba(255,255,255,.22);
+    }
+
+    .product-name {
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .product-name strong {
+      display: block;
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      letter-spacing: -0.035em;
+    }
+
+    .product-name small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted-2);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .nav-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--magenta-500);
+      box-shadow: 0 0 0 5px rgba(228,45,93,.14);
+    }
+
+    /* =========================================================
+       03. HERO
+    ========================================================= */
+    .hero {
+      padding: 54px 0 34px;
+      text-align: center;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      padding: 0 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(255,255,255,.08);
+      font-size: .74rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--magenta-500);
+    }
+
+    .hero h1 {
+      max-width: 920px;
+      margin: 22px auto 0;
+      font-size: clamp(2.45rem, 7vw, 5.7rem);
+      line-height: .96;
+      letter-spacing: -.065em;
+    }
+
+    .hero h1 span {
+      color: #F9A2B8;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+      margin: 22px auto 0;
+      color: var(--muted);
+      font-size: clamp(.98rem, 1.7vw, 1.08rem);
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       04. FILTERS
+    ========================================================= */
+    .filter-shell {
+      margin-top: 30px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 22px;
+      background: rgba(255,255,255,.075);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .filter-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 3px 4px 13px;
+    }
+
+    .filter-title {
+      margin: 0;
+      font-size: .86rem;
+      font-weight: 850;
+      letter-spacing: .02em;
+    }
+
+    .reset {
+      border: 0;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .reset:hover {
+      color: #fff;
+      background: rgba(255,255,255,.08);
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap select {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 42px 0 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 14px;
+      color: #fff;
+      background: rgba(20, 0, 78, .72);
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .select-wrap::after {
+      content: "⌄";
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-53%);
+      color: rgba(255,255,255,.68);
+      pointer-events: none;
+      font-weight: 900;
+    }
+
+    .select-wrap select:hover {
+      border-color: rgba(255,255,255,.28);
+    }
+
+    .select-wrap select:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .select-wrap select option {
+      color: var(--ink);
+      background: white;
+    }
+
+    /* =========================================================
+       05. CATALOG
+    ========================================================= */
+    .catalog {
+      padding: 34px 0 68px;
+    }
+
+    .catalog-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .catalog-heading {
+      margin: 0;
+      font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+      letter-spacing: -.035em;
+    }
+
+    .catalog-subtitle {
+      margin: 5px 0 0;
+      color: var(--muted-2);
+      font-size: .86rem;
+    }
+
+    .result-count {
+      margin: 0;
+      color: var(--muted);
+      font-size: .82rem;
+      white-space: nowrap;
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 16px;
+    }
+
+    .game-card {
+      --accent: var(--magenta-500);
+      position: relative;
+      min-width: 0;
+      min-height: 322px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 20px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025)),
+        var(--purple-card);
+      box-shadow: var(--shadow-card);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .game-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 4px;
+      background: var(--accent);
+    }
+
+    .game-card::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      right: -68px;
+      top: -74px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent) 18%, transparent);
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--accent) 48%, rgba(255,255,255,.14));
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)),
+        var(--purple-card-2);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      font-size: 1.7rem;
+    }
+
+    .category {
+      margin: 14px 0 0;
+      color: var(--accent);
+      font-size: .70rem;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .game-title {
+      margin: 10px 0 0;
+      font-size: 1.18rem;
+      line-height: 1.25;
+      letter-spacing: -.028em;
+    }
+
+    .game-description {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: .90rem;
+      line-height: 1.57;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 15px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 25px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.075);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.82);
+      font-size: .68rem;
+      font-weight: 800;
+    }
+
+    .tag.code {
+      color: #fff;
+      border-color: color-mix(in srgb, var(--accent) 45%, rgba(255,255,255,.10));
+      background: color-mix(in srgb, var(--accent) 13%, rgba(255,255,255,.05));
+    }
+
+    .card-footer {
+      margin-top: auto;
+      padding-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .skill-label {
+      color: var(--muted-2);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .play {
+      min-height: 40px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 999px;
+      color: white;
+      background: var(--accent);
+      box-shadow: 0 10px 22px color-mix(in srgb, var(--accent) 24%, transparent);
+      font-weight: 900;
+      font-size: .84rem;
+      cursor: pointer;
+      transition: transform .16s ease, filter .16s ease;
+    }
+
+    .play:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+    }
+
+    .empty {
+      display: none;
+      padding: 44px 20px;
+      border: 1px dashed rgba(255,255,255,.18);
+      border-radius: 20px;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(255,255,255,.04);
+    }
+
+    .empty.show {
+      display: block;
+    }
+
+    .empty strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    /* =========================================================
+       06. FOOTER
+    ========================================================= */
+    .site-footer {
+      padding: 0 0 30px;
+      color: var(--muted-2);
+      font-size: .75rem;
+      text-align: center;
+    }
+
+    /* =========================================================
+       07. MODAL
+    ========================================================= */
+    dialog {
+      width: min(520px, calc(100% - 28px));
+      padding: 0;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 22px;
+      color: #fff;
+      background: #211152;
+      box-shadow: 0 30px 90px rgba(5,0,35,.48);
+    }
+
+    dialog::backdrop {
+      background: rgba(7,0,31,.72);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal {
+      padding: 24px;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .modal h2 {
+      margin: 0;
+      font-size: 1.35rem;
+    }
+
+    .modal p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .modal-close {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.09);
+      color: #fff;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    .path {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      color: #fff;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.10);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .78rem;
+      overflow-wrap: anywhere;
+    }
+
+    /* =========================================================
+       08. RESPONSIVE
+    ========================================================= */
+    @media (max-width: 900px) {
+      .games {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .wrap {
+        width: min(calc(100% - 22px), var(--max));
+      }
+
+      .site-header {
+        padding-top: 16px;
+      }
+
+      .nav {
+        align-items: flex-start;
+      }
+
+      .brand {
+        gap: 10px;
+      }
+
+      .brand-logo {
+        width: 124px;
+      }
+
+      .brand-divider {
+        height: 30px;
+      }
+
+      .product-name small,
+      .nav-meta {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 38px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 15vw, 4.2rem);
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-head,
+      .catalog-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .result-count {
+        white-space: normal;
+      }
+
+      .games {
+        grid-template-columns: 1fr;
+      }
+
+      .game-card {
+        min-height: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition-duration: .001ms !important;
+        animation-duration: .001ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <div class="brand" aria-label="CodiGames by Codifica Edu">
+        <img class="brand-logo" src="data:image/png;base64,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" alt="Codifica Edu">
+        <span class="brand-divider" aria-hidden="true"></span>
+        <div class="product-name">
+          <strong>CodiGames</strong>
+          <small>by Codifica Edu</small>
+        </div>
+      </div>
+
+      <div class="nav-meta">
+        <span class="status-dot" aria-hidden="true"></span>
+        Catálogo BNCC
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-kicker">CodiGames by Codifica Edu</div>
+        <h1>Jogos para <span>aprender fazendo.</span></h1>
+        <p class="hero-copy">
+          Explore experiências educacionais organizadas automaticamente por etapa,
+          ano escolar e componente curricular a partir dos códigos da BNCC.
+        </p>
+
+        <section class="filter-shell" aria-labelledby="filters-title">
+          <div class="filter-head">
+            <h2 class="filter-title" id="filters-title">Encontre o jogo certo</h2>
+            <button class="reset" id="resetFilters" type="button">Limpar filtros</button>
+          </div>
+
+          <div class="filters">
+            <label class="select-wrap">
+              <span class="sr-only">Etapa de ensino</span>
+              <select id="stageFilter">
+                <option value="">Etapa de ensino</option>
+              </select>
+            </label>
+
+            <label class="select-wrap">
+              <span class="sr-only">Ano escolar</span>
+              <select id="yearFilter">
+                <option value="">Ano escolar</option>
+              </select>
+            </label>
+
+            <label class="select-wrap">
+              <span class="sr-only">Componente curricular</span>
+              <select id="subjectFilter">
+                <option value="">Componente curricular</option>
+              </select>
+            </label>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="catalog">
+      <div class="wrap">
+        <div class="catalog-head">
+          <div>
+            <h2 class="catalog-heading">Jogos disponíveis</h2>
+            <p class="catalog-subtitle">Catálogo demonstrativo com leitura automática dos códigos BNCC.</p>
+          </div>
+          <p class="result-count" id="resultCount" aria-live="polite"></p>
+        </div>
+
+        <div class="games" id="gamesGrid"></div>
+
+        <div class="empty" id="emptyState">
+          <strong>Nenhum jogo encontrado.</strong>
+          Nenhum jogo cadastrado corresponde a esta combinação. Os filtros continuam mostrando todas as opções da BNCC configuradas no catálogo.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">CodiGames by Codifica Edu • Jogos educacionais organizados pela BNCC</div>
+  </footer>
+
+  <dialog id="gameDialog">
+    <div class="modal">
+      <div class="modal-top">
+        <div>
+          <div class="category" id="modalCategory">Jogo</div>
+          <h2 id="modalTitle">Título</h2>
+        </div>
+        <button class="modal-close" id="modalClose" type="button" aria-label="Fechar">×</button>
+      </div>
+      <p id="modalText"></p>
+      <div class="path" id="modalPath"></div>
+    </div>
+  </dialog>
+
+  <script>
+    "use strict";
+
+    /* =========================================================
+       01. CONFIG
+    ========================================================= */
+    const CONFIG = Object.freeze({
+      stages: {
+        EI: "Educação Infantil",
+        EF: "Ensino Fundamental",
+        EM: "Ensino Médio"
+      },
+
+      yearGroups: {
+        EI_ALL: "0 a 5 anos",
+        EF_INITIAL: "1º ao 5º ano — Anos Iniciais",
+        EF_FINAL: "6º ao 9º ano — Anos Finais",
+        EM_ALL: "1º ao 3º ano — Ensino Médio"
+      },
+
+      subjects: {
+        EI: {
+          EO: "O eu, o outro e o nós",
+          CG: "Corpo, gestos e movimentos",
+          TS: "Traços, sons, cores e formas",
+          EF: "Escuta, fala, pensamento e imaginação",
+          ET: "Espaços, tempos, quantidades, relações e transformações"
+        },
+        EF: {
+          AR: "Arte",
+          CI: "Ciências",
+          EF: "Educação Física",
+          ER: "Ensino Religioso",
+          GE: "Geografia",
+          HI: "História",
+          LI: "Língua Inglesa",
+          LP: "Língua Portuguesa",
+          MA: "Matemática",
+          CO: "Computação"
+        },
+        EM: {
+          LGG: "Linguagens e suas Tecnologias",
+          MAT: "Matemática e suas Tecnologias",
+          CNT: "Ciências da Natureza e suas Tecnologias",
+          CHS: "Ciências Humanas e Sociais Aplicadas",
+          CO: "Computação"
+        }
+      },
+
+      accents: [
+        "#E42D5D",
+        "#9E599F",
+        "#444D9C",
+        "#E42D5D",
+        "#9E599F",
+        "#444D9C"
+      ]
+    });
+
+    /* =========================================================
+       02. GAME DATA
+       Os códigos BNCC ficam na descrição: o parser lê sozinho.
+    ========================================================= */
+    const GAMES = Object.freeze([
+      {
+        id: "silabas-em-acao",
+        icon: "🔤",
+        category: "Letramento",
+        title: "Sílabas em Ação",
+        description: "Ouça, separe e organize palavras em sílabas para avançar de fase. Habilidade trabalhada: (EF01LP06).",
+        path: "./jogos/silabas-em-acao/index.html"
+      },
+      {
+        id: "alfabeto-secreto",
+        icon: "🕵️",
+        category: "Investigação",
+        title: "Alfabeto Secreto",
+        description: "Descubra letras escondidas, reconheça o alfabeto e diferencie letras de outros sinais gráficos. (EF01LP04)",
+        path: "./jogos/alfabeto-secreto/index.html"
+      },
+      {
+        id: "fatos-basicos",
+        icon: "➕",
+        category: "Desafio rápido",
+        title: "Missão dos Fatos Básicos",
+        description: "Resolva desafios de cálculo mental usando fatos básicos da adição e da subtração. (EF02MA05)",
+        path: "./jogos/fatos-basicos/index.html"
+      },
+      {
+        id: "milhar",
+        icon: "🔢",
+        category: "Numeramento",
+        title: "Cidade dos Milhares",
+        description: "Leia, escreva e compare números naturais até a unidade de milhar em missões pela cidade. (EF03MA01)",
+        path: "./jogos/cidade-dos-milhares/index.html"
+      },
+      {
+        id: "formas-espaciais",
+        icon: "🧊",
+        category: "Exploração",
+        title: "Museu das Formas",
+        description: "Associe cubos, blocos, pirâmides, cones, cilindros e esferas a objetos do mundo real. (EF03MA13)",
+        path: "./jogos/museu-das-formas/index.html"
+      },
+      {
+        id: "silaba-tonica",
+        icon: "🎧",
+        category: "Língua Portuguesa",
+        title: "Batida da Sílaba Tônica",
+        description: "Identifique a sílaba tônica e classifique palavras como oxítonas, paroxítonas e proparoxítonas. (EF03LP06)",
+        path: "./jogos/batida-da-silaba/index.html"
+      }
+    ]);
+
+    /* =========================================================
+       03. STATE
+    ========================================================= */
+    const state = {
+      filters: {
+        stage: "",
+        yearGroup: "",
+        subject: ""
+      },
+      parsedGames: []
+    };
+
+    /* =========================================================
+       04. BNCC PARSER
+    ========================================================= */
+    function parseCodes(text) {
+      const regex = /\((EI|EF|EM)(\d{2})([A-Z]{2,3})(\d{2,3})\)/g;
+      const result = [];
+      let match;
+
+      while ((match = regex.exec(text)) !== null) {
+        const [, stage, yearToken, subjectCode, skillNumber] = match;
+        const yearGroup = resolveYearGroup(stage, yearToken);
+
+        result.push({
+          raw: match[0],
+          stage,
+          stageLabel: CONFIG.stages[stage],
+          yearToken,
+          yearGroup,
+          subjectCode,
+          subjectName: CONFIG.subjects[stage]?.[subjectCode] || subjectCode,
+          subjectKey: `${stage}|${subjectCode}`,
+          skillNumber
+        });
+      }
+
+      return result;
+    }
+
+    function resolveYearGroup(stage, yearToken) {
+      if (stage === "EI") {
+        return { key: "EI_ALL", label: CONFIG.yearGroups.EI_ALL };
+      }
+
+      if (stage === "EM") {
+        return { key: "EM_ALL", label: CONFIG.yearGroups.EM_ALL };
+      }
+
+      const numeric = Number(yearToken);
+
+      if (stage === "EF") {
+        if (numeric >= 1 && numeric <= 5) {
+          return { key: "EF_INITIAL", label: CONFIG.yearGroups.EF_INITIAL };
+        }
+
+        if (numeric >= 6 && numeric <= 9) {
+          return { key: "EF_FINAL", label: CONFIG.yearGroups.EF_FINAL };
+        }
+
+        const digits = yearToken.split("").map(Number);
+        if (digits.every((n) => n >= 1 && n <= 5)) {
+          return { key: "EF_INITIAL", label: CONFIG.yearGroups.EF_INITIAL };
+        }
+
+        if (digits.every((n) => n >= 6 && n <= 9)) {
+          return { key: "EF_FINAL", label: CONFIG.yearGroups.EF_FINAL };
+        }
+      }
+
+      return { key: `${stage}_${yearToken}`, label: yearToken };
+    }
+
+    /* =========================================================
+       05. DATA PREP
+    ========================================================= */
+    function prepareData() {
+      state.parsedGames = GAMES.map((game, index) => ({
+        ...game,
+        accent: CONFIG.accents[index % CONFIG.accents.length],
+        metadata: parseCodes(game.description)
+      }));
+    }
+
+    function allMetadata() {
+      return state.parsedGames.flatMap((game) => game.metadata);
+    }
+
+    function uniqueBy(items, key) {
+      const seen = new Set();
+      return items.filter((item) => {
+        if (seen.has(item[key])) return false;
+        seen.add(item[key]);
+        return true;
+      });
+    }
+
+    /* =========================================================
+       06. FILTER OPTIONS
+    ========================================================= */
+    function fillSelect(select, placeholder, options) {
+      select.replaceChildren();
+
+      const initial = document.createElement("option");
+      initial.value = "";
+      initial.textContent = placeholder;
+      select.append(initial);
+
+      options.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item.value;
+        option.textContent = item.label;
+        select.append(option);
+      });
+    }
+
+    function populateStages() {
+      const options = Object.entries(CONFIG.stages).map(([value, label]) => ({
+        value,
+        label
+      }));
+
+      fillSelect(document.getElementById("stageFilter"), "Etapa de ensino", options);
+      document.getElementById("stageFilter").value = state.filters.stage;
+    }
+
+    function populateYears() {
+      let options = [];
+
+      if (state.filters.stage === "EI") {
+        options = [
+          { value: "EI_ALL", label: CONFIG.yearGroups.EI_ALL }
+        ];
+      } else if (state.filters.stage === "EF") {
+        options = [
+          { value: "EF_INITIAL", label: CONFIG.yearGroups.EF_INITIAL },
+          { value: "EF_FINAL", label: CONFIG.yearGroups.EF_FINAL }
+        ];
+      } else if (state.filters.stage === "EM") {
+        options = [
+          { value: "EM_ALL", label: CONFIG.yearGroups.EM_ALL }
+        ];
+      } else {
+        options = [
+          { value: "EI_ALL", label: `EI — ${CONFIG.yearGroups.EI_ALL}` },
+          { value: "EF_INITIAL", label: `EF — ${CONFIG.yearGroups.EF_INITIAL}` },
+          { value: "EF_FINAL", label: `EF — ${CONFIG.yearGroups.EF_FINAL}` },
+          { value: "EM_ALL", label: `EM — ${CONFIG.yearGroups.EM_ALL}` }
+        ];
+      }
+
+      const select = document.getElementById("yearFilter");
+      fillSelect(select, "Ano escolar", options);
+
+      if (!options.some((o) => o.value === state.filters.yearGroup)) {
+        state.filters.yearGroup = "";
+      }
+
+      select.value = state.filters.yearGroup;
+      select.disabled = false;
+    }
+
+    function populateSubjects() {
+      let options = [];
+
+      if (state.filters.stage) {
+        options = Object.entries(CONFIG.subjects[state.filters.stage] || {})
+          .map(([code, name]) => ({
+            value: `${state.filters.stage}|${code}`,
+            label: name
+          }));
+      } else {
+        options = Object.entries(CONFIG.subjects).flatMap(([stage, subjects]) =>
+          Object.entries(subjects).map(([code, name]) => ({
+            value: `${stage}|${code}`,
+            label: `${stage} — ${name}`
+          }))
+        );
+      }
+
+      options.sort((a, b) => a.label.localeCompare(b.label, "pt-BR"));
+
+      const select = document.getElementById("subjectFilter");
+      fillSelect(select, "Componente curricular", options);
+
+      if (!options.some((o) => o.value === state.filters.subject)) {
+        state.filters.subject = "";
+      }
+
+      select.value = state.filters.subject;
+      select.disabled = false;
+    }
+
+    /* =========================================================
+       07. FILTERING
+    ========================================================= */
+    function matches(game) {
+      const { stage, yearGroup, subject } = state.filters;
+
+      if (!stage && !yearGroup && !subject) return true;
+
+      return game.metadata.some((m) => {
+        const a = !stage || m.stage === stage;
+        const b = !yearGroup || m.yearGroup.key === yearGroup;
+        const c = !subject || m.subjectKey === subject;
+        return a && b && c;
+      });
+    }
+
+    /* =========================================================
+       08. RENDER
+    ========================================================= */
+    function render() {
+      const grid = document.getElementById("gamesGrid");
+      const empty = document.getElementById("emptyState");
+      const games = state.parsedGames.filter(matches);
+
+      grid.replaceChildren();
+
+      games.forEach((game) => grid.append(createCard(game)));
+
+      empty.classList.toggle("show", games.length === 0);
+
+      document.getElementById("resultCount").textContent =
+        games.length === 1 ? "1 jogo encontrado" : `${games.length} jogos encontrados`;
+    }
+
+    function createCard(game) {
+      const card = document.createElement("article");
+      card.className = "game-card";
+      card.style.setProperty("--accent", game.accent);
+
+      const icon = document.createElement("div");
+      icon.className = "card-icon";
+      icon.textContent = game.icon;
+
+      const category = document.createElement("p");
+      category.className = "category";
+      category.textContent = game.category;
+
+      const title = document.createElement("h3");
+      title.className = "game-title";
+      title.textContent = game.title;
+
+      const desc = document.createElement("p");
+      desc.className = "game-description";
+      desc.textContent = game.description;
+
+      const tags = document.createElement("div");
+      tags.className = "tags";
+
+      game.metadata.forEach((m) => {
+        tags.append(
+          makeTag(m.raw, "tag code"),
+          makeTag(m.yearGroup.label, "tag"),
+          makeTag(m.subjectName, "tag")
+        );
+      });
+
+      const footer = document.createElement("div");
+      footer.className = "card-footer";
+
+      const skill = document.createElement("span");
+      skill.className = "skill-label";
+      skill.textContent = game.metadata[0]?.stageLabel || "BNCC";
+
+      const button = document.createElement("button");
+      button.className = "play";
+      button.type = "button";
+      button.dataset.gameId = game.id;
+      button.textContent = "Jogar →";
+
+      footer.append(skill, button);
+      card.append(icon, category, title, desc, tags, footer);
+
+      return card;
+    }
+
+    function makeTag(text, className) {
+      const span = document.createElement("span");
+      span.className = className;
+      span.textContent = text;
+      return span;
+    }
+
+    /* =========================================================
+       09. EVENTS
+    ========================================================= */
+    function bindEvents() {
+      document.getElementById("stageFilter").addEventListener("change", (event) => {
+        state.filters.stage = event.target.value;
+        state.filters.yearGroup = "";
+        state.filters.subject = "";
+        populateYears();
+        populateSubjects();
+        render();
+      });
+
+      document.getElementById("yearFilter").addEventListener("change", (event) => {
+        state.filters.yearGroup = event.target.value;
+        state.filters.subject = "";
+        populateSubjects();
+        render();
+      });
+
+      document.getElementById("subjectFilter").addEventListener("change", (event) => {
+        state.filters.subject = event.target.value;
+        render();
+      });
+
+      document.getElementById("resetFilters").addEventListener("click", () => {
+        state.filters = { stage: "", yearGroup: "", subject: "" };
+        populateStages();
+        populateYears();
+        populateSubjects();
+        render();
+      });
+
+      document.getElementById("gamesGrid").addEventListener("click", (event) => {
+        const button = event.target.closest(".play");
+        if (!button) return;
+
+        const game = state.parsedGames.find((g) => g.id === button.dataset.gameId);
+        if (game) openGameModal(game);
+      });
+
+      document.getElementById("modalClose").addEventListener("click", closeModal);
+
+      document.getElementById("gameDialog").addEventListener("click", (event) => {
+        if (event.target === event.currentTarget) closeModal();
+      });
+    }
+
+    function openGameModal(game) {
+      const dialog = document.getElementById("gameDialog");
+      document.getElementById("modalCategory").textContent = game.category;
+      document.getElementById("modalTitle").textContent = game.title;
+      document.getElementById("modalText").textContent =
+        "Este é um jogo demonstrativo do catálogo. Em produção, o botão pode abrir diretamente o arquivo HTML hospedado.";
+      document.getElementById("modalPath").textContent = game.path;
+
+      if (typeof dialog.showModal === "function") {
+        dialog.showModal();
+      } else {
+        alert(`${game.title}\n${game.path}`);
+      }
+    }
+
+    function closeModal() {
+      const dialog = document.getElementById("gameDialog");
+      if (dialog.open) dialog.close();
+    }
+
+    /* =========================================================
+       10. INIT
+    ========================================================= */
+    function init() {
+      prepareData();
+      populateStages();
+      populateYears();
+      populateSubjects();
+      bindEvents();
+      render();
+    }
+
+    init();
+  </script>
+</body>
+</html>
